@@ -1,0 +1,44 @@
+# =========================
+# Python cache
+# =========================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# =========================
+# Virtual environments
+# =========================
+plant_env/
+venv/
+.venv/
+
+# =========================
+# Jupyter
+# =========================
+.ipynb_checkpoints/
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Dataset (VERY IMPORTANT)
+# =========================
+New Plant Diseases Dataset(Augmented)*/
+New Plant Diseases Dataset (Augmented)*/
+*New Plant Diseases Dataset*
+
+# =========================
+# Outputs (optional)
+# =========================
+gradcam/
+misclassified/
+
+# =========================
+# Secrets
+# =========================
+.env
+*.key
