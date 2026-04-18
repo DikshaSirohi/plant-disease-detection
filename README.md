@@ -1,187 +1,183 @@
-# Processing of Plant Leaf Images for Disease Detection using Deep Learning
-
-## Overview
-This project classifies plant leaf images into **38 classes** (healthy + diseases) using Deep Learning with Transfer Learning (TensorFlow/Keras).
-
-Two models were implemented:
-- A **Baseline model**
-- An **Improved model**
-
-Both models were evaluated using accuracy, per-class metrics, and confusion matrices.  
-Grad-CAM is also included to visualize which part of the leaf the model focuses on.
-
+# 🌿 Plant Leaf Disease Detection
+ 
+![Python](https://img.shields.io/badge/Python-3.10-blue?logo=python)
+![TensorFlow](https://img.shields.io/badge/TensorFlow-2.x-orange?logo=tensorflow)
+![Accuracy](https://img.shields.io/badge/Test%20Accuracy-~99%25-brightgreen)
+![License](https://img.shields.io/badge/License-MIT-lightgrey)
+ 
+A deep learning project that classifies plant leaf images into **38 classes** (healthy + diseased) using Transfer Learning with TensorFlow/Keras. Includes a Streamlit web app for live predictions.
+ 
 ---
-
-## Dataset
-
-**Dataset Name:** New Plant Diseases Dataset (Augmented)  
-**Total Classes:** 38  
-
-**Dataset Source (Kaggle):**  
-https://www.kaggle.com/datasets/vipoooool/new-plant-diseases-dataset
-
-### Dataset Split Used
-
-- `train/` → used for training
-- `valid/` → used for validation during training
-- `test/` → manually created from validation (**20% per class**) for final evaluation
-
-⚠️ The dataset is **NOT included** in this GitHub repository.  
-Please download it from Kaggle and update dataset paths in `src/config.py`.
-
+ 
+## 📸 Demo
+ 
+> Upload a leaf image → get a disease prediction, confidence score, and top-5 results.
+ 
+**Web App**
+![Web App](photos/web.jpg)
+ 
+**Blueberry — Healthy**
+| | |
+|---|---|
+| ![Blueberry 1](photos/blueberryhealthy.jpg) | ![Blueberry 2](photos/blueberryhealthy2.jpg) |
+ 
+**Potato — Healthy**
+| | |
+|---|---|
+| ![Potato 1](photos/potatohealthy.jpg) | ![Potato 2](photos/potatohealthy2.jpg) |
+ 
+**Corn Detection**
+| | |
+|---|---|
+| ![Corn 1](photos/corn.jpg) | ![Corn 2](photos/corn2.jpg) |
+ 
 ---
-
-## Models
-
-### Baseline Model
-- Backbone: **MobileNetV2 (ImageNet)**
-- Backbone frozen (no fine-tuning)
-- GlobalAveragePooling + Dropout(0.2) + Dense(38)
-- Trained for 5 epochs
-- Test Accuracy: ~93%
-- Saved as: `models/baseline.keras`
-
-### Improved Model
-- Backbone: **EfficientNetB0 (ImageNet)**
-- Stronger data augmentation
-- Label smoothing: 0.05
-- Class weights used
-- Two-stage training:
-  1. Train classification head
-  2. Fine-tune top 30% layers (low learning rate)
-- Best Test Accuracy: ~99%
-- Saved as: `models/improved_best.keras`
-
----
-
-## Baseline vs Improved Comparison
-
+ 
+## 🧠 Models
+ 
 | Feature | Baseline | Improved |
-|----------|----------|----------|
-| Model | MobileNetV2 | EfficientNetB0 |
-| Fine-tuning | No | Yes |
+|---|---|---|
+| Backbone | MobileNetV2 | EfficientNetB0 |
+| Fine-tuning | No | Yes (top 30% layers) |
 | Augmentation | Basic | Stronger |
 | Label smoothing | No | Yes (0.05) |
 | Class weights | No | Yes |
 | Test Accuracy | ~93% | ~99% |
-
+ 
 ---
-
-## Evaluation Outputs
-
-Results are saved inside:
-
-- `final/baseline/`
-  - classification_report_baseline.txt
-  - per_class_metrics_baseline.csv
-  - confusion_matrix_baseline.png
-
-- `final/improved/`
-  - classification_report_improved.txt
-  - per_class_metrics_improved.csv
-  - confusion_matrix_improved.png
-
-Evaluation script:
-
-python src/evaluate.py
-
-
+ 
+## 📁 Project Structure
+ 
+```
+plant-disease-detection/
+├── app/
+│   └── app.py                  # Streamlit web app
+├── src/
+│   ├── config.py               # All paths and settings
+│   ├── baseline_train.py       # Train baseline model (MobileNetV2)
+│   ├── train_improved.py       # Train improved model (EfficientNetB0)
+│   ├── evaluate.py             # Evaluate a model on test set
+│   ├── gradcam.py              # Grad-CAM heatmap visualization
+│   ├── make_test_split.py      # Creates test split from validation set
+│   └── save_class_names.py     # Saves class names to JSON
+├── models/
+│   ├── baseline.keras
+│   ├── improved_best.keras
+│   └── class_names.json
+├── outputs/
+│   └── final/
+│       ├── baseline/
+│       └── improved/
+├── test_evaluation.py
+└── README.md
+```
+ 
 ---
-
-## Grad-CAM
-
-Grad-CAM generates a heatmap showing which region of the leaf image influenced the model’s prediction.
-
-Script:
-
-python src/gradcam.py
-
-
+ 
+## 📦 Dataset
+ 
+**Name:** New Plant Diseases Dataset (Augmented)  
+**Classes:** 38 | **Source:** [Kaggle](https://www.kaggle.com/datasets/vipoooool/new-plant-diseases-dataset)
+ 
+| Split | Usage |
+|---|---|
+| `train/` | Model training |
+| `valid/` | Validation during training |
+| `test/` | Final evaluation (20% per class from valid) |
+ 
+> ⚠️ The dataset is **not included** in this repo. Download from Kaggle and update the path in `src/config.py`.
+ 
 ---
-
-## Project Structure
-
-
-app/
-app.py
-
-src/
-baseline_train.py
-train_improved.py
-evaluate.py
-evaluate_compare.py
-gradcam.py
-error_analysis.py
-config.py
-make_test_split.py
-save_class_names.py
-test_evaluation.py
-
-models/
-baseline.keras
-improved_best.keras
-class_names.json
-
-final/
-baseline/
-improved/
-
-
----
-
-## How to Run
-
-### 1) Create Virtual Environment (Python 3.10)
-
-
+ 
+## 🚀 How to Run
+ 
+### 1. Create & activate virtual environment
+ 
+```bash
 python -m venv plant_env
-
-
-Activate:
-
-Windows:
-
+ 
+# Windows
 plant_env\Scripts\activate
-
-
-Mac/Linux:
-
+ 
+# Mac/Linux
 source plant_env/bin/activate
-
-
-### 2) Install Requirements
-
-
+```
+ 
+### 2. Install dependencies
+ 
+```bash
 pip install -r requirements.txt
-
-
-### 3) Update Dataset Path
-
-Edit:
-
-src/config.py
-
-
-### 4) Train Models
-
-Baseline:
-
+```
+ 
+### 3. Update dataset path
+ 
+Edit `src/config.py` and set `DATASET_ROOT` to your local dataset folder.
+ 
+### 4. Train models
+ 
+```bash
+# Baseline
 python src/baseline_train.py
-
-
-Improved:
-
+ 
+# Improved
 python src/train_improved.py
-
-
-### 5) Evaluate
-
-
-python src/evaluate.py
-
-
+```
+ 
+### 5. Evaluate
+ 
+```bash
+python -m src.evaluate models/improved_best.keras
+```
+ 
+### 6. Run the web app
+ 
+```bash
+streamlit run app/app.py
+```
+ 
 ---
-
-## Notes
-- Dataset is not uploaded to GitHub.
-- Virtual environment (`plant_env`) is not uploaded.
+ 
+## 🔥 Grad-CAM
+ 
+Visualizes which part of the leaf the model focuses on when making a prediction.
+ 
+```bash
+python -m src.gradcam models/improved_best.keras
+```
+ 
+Output is saved to `outputs/gradcam/`.
+ 
+---
+ 
+## 📊 Evaluation Outputs
+ 
+Saved inside `outputs/final/`:
+ 
+- `classification_report.txt` — per-class precision, recall, F1
+- `per_class_metrics.csv` — same data in CSV format
+- `confusion_matrix.png` — visual confusion matrix
+---
+ 
+## 🛠️ Tech Stack
+ 
+- Python 3.10
+- TensorFlow / Keras
+- Streamlit
+- scikit-learn
+- Matplotlib / Seaborn
+- Pillow
+---
+ 
+## 📝 Notes
+ 
+- Dataset and virtual environment are **not** uploaded to GitHub.
+- The improved model uses two-stage training: head first, then fine-tuning top 30% of EfficientNetB0.
+- This project is for **academic/demo use only** — not a substitute for professional agricultural advice.
+---
+ 
+## 👩‍💻 Author
+ 
+**Diksha Sirohi**  
+[GitHub](https://github.com/DikshaSirohi)
+ 
+---
