@@ -24,7 +24,7 @@ A deep learning project that classifies plant leaf images into **38 classes** (h
 **Potato — Healthy**
 | | |
 |---|---|
-| ![Potato 1](photos/potatohealthy.jpg) | ![Potato 2](photos/potatohealthy2.jpg) |
+| ![Potato 1](photos/potato healthy.jpg) | ![Potato 2](photos/potato healthy2.jpg) |
  
 **Corn Detection**
 | | |
