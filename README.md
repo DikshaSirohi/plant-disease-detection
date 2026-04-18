@@ -3,7 +3,6 @@
 ![Python](https://img.shields.io/badge/Python-3.10-blue?logo=python)
 ![TensorFlow](https://img.shields.io/badge/TensorFlow-2.x-orange?logo=tensorflow)
 ![Accuracy](https://img.shields.io/badge/Test%20Accuracy-~99%25-brightgreen)
-![License](https://img.shields.io/badge/License-MIT-lightgrey)
  
 A deep learning project that classifies plant leaf images into **38 classes** (healthy + diseased) using Transfer Learning with TensorFlow/Keras. Includes a Streamlit web app for live predictions.
  
